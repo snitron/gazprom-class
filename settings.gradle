@@ -1,0 +1,1 @@
+include ':app', ':httpclient-4.5.5', ':httpcore-4.4.9', ':httpmime-4.5.5', ':commons-io-2.6', ':gson-2.8.5', ':retrofit-2.1.0', ':retrofit-2.4.0', ':converter-gson-2.4.0', ':commons-codec-1.11'

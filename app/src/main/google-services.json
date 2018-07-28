@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "501225296712",
+    "firebase_url": "https://gazpromclass.firebaseio.com",
+    "project_id": "gazpromclass",
+    "storage_bucket": "gazpromclass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501225296712:android:9b8ef0833ff59499",
+        "android_client_info": {
+          "package_name": "com.nitronapps.gazpromclass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501225296712-482la76ilqoob9cjbl27but45grfta0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nitronapps.gazpromclass",
+            "certificate_hash": "825154b4a83d4a1c8ac0aad9a6a3aa3bf98067af"
+          }
+        },
+        {
+          "client_id": "501225296712-u6j3trku7c1e7j7g91j6knr1nejtorkp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpPelUYBobLxZ-yO1xf3qWGsVzFKwZiwg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501225296712-u6j3trku7c1e7j7g91j6knr1nejtorkp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
