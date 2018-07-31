@@ -80,7 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else
-                    Toast.makeText(getApplicationContext(), "Пожалуйста, введите имя. Если вы хотите остаться инкогнито, зажмите эту кнопку.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.startToast, Toast.LENGTH_LONG).show();
             }
         });
 

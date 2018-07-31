@@ -52,10 +52,8 @@ public class UploadActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText titleEdit, contentEdit;
     private ImageView showOk;
-    private TextView fileCounter;
     private ProgressBar progressBar;
     private Button addImages, send;
-    private MenuItem menuItem;
     private LinearLayout layoutAttPhotos;
     private static final String IMAGE_TYPE = "image/*";
     private static final int SELECT_MULTIPLE_PICTURE = 201;
@@ -72,8 +70,6 @@ public class UploadActivity extends AppCompatActivity
         addImages = (Button) findViewById(R.id.buttonUpload);
         send = (Button) findViewById(R.id.buttonSend);
         layoutAttPhotos = (LinearLayout) findViewById(R.id.linearLayoutAttPhotos);
-        menuItem = (MenuItem) findViewById(R.id.nav_gallery);
-        fileCounter = (TextView) findViewById(R.id.textViewFiles);
         progressBar = (ProgressBar) findViewById(R.id.progressBarUpload);
         showOk = (ImageView) findViewById(R.id.imageViewOK);
 

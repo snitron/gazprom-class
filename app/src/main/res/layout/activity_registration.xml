@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".RegistrationActivity">
+    tools:context=".RegistrationActivity"
+    style="@style/FullscreenTheme">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -24,7 +25,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text='Добро пожаловать в приложение "Газпром Класс"!'
+        android:text="@string/welcomeStart"
         android:textAlignment="center"
         android:textColor="#0079c2"
         android:textSize="24sp"
@@ -56,7 +57,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Для начала введите ваше имя, которое будет использоваться для подписи ваших постов."
+        android:text="@string/toStart"
         android:textAlignment="center"
         android:textColor="#0079c2"
         android:textSize="14sp"
@@ -74,7 +75,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Имя"
+        android:hint="@string/nameStart"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#ffffff"
-        android:text="НАЧАТЬ"
+        android:text="@string/startButton"
         android:textColor="#0079c2"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +109,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="Версия 1.0.3"
+        android:text="@string/version"
         android:textColor="#000000"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

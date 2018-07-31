@@ -2,22 +2,33 @@
     <string name="app_name">Газпром Класс</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="name">User</string>
-    <string name="title_activity_news">NewsActivity</string>
-
-    <string name="title_activity_photo">PhotoActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_registration">Газпром Класc</string>
 
     <string name="about_information">Разработчик приложения: Nitron Apps (Варламов Никита)\n
  Контакты: +79964015146\n
  Telegram: @snitron\n
- Версия 1.0.3\n
- Сборка от 25.07.2018 г.\n</string>
+ Версия 1.0.4\n
+ Сборка от 31.07.2018 г.\n</string>
+
+    <string name="news">Новости</string>
+    <string name="sendPost">Отправить пост</string>
+    <string name="about">О приложении</string>
+    <string name="title">Заголовок</string>
+    <string name="content">Текст</string>
+    <string name="attImages">Прикреплённые изображения</string>
+    <string name="sendButton">Отправить</string>
+    <string name="attButton">Прикрепить фотографии</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="welcomeStart">Добро пожаловать в приложение "Газпром Класс"!</string>
+    <string name="toStart">Для начала введите ваше имя, которое будет использоваться для подписи ваших постов.</string>
+    <string name="nameStart">Имя</string>
+    <string name="startButton">Начать</string>
+    <string name="version">Версия 1.0.4</string>
+
+    <string name="notificationServerError">Сервер недоступен, пропробуйте позже.</string>
+    <string name="notificationConnectionError">Проверьте сосединение с Интернетом.</string>
+    <string name="retry">Повторить</string>
+    <string name="exit">Выйти</string>
+    <string name="startToast">Пожалуйста, введите имя. Если вы хотите остаться инкогнито, зажмите эту кнопку.</string>
+
 </resources>

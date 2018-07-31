@@ -50,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences.Editor editor;
     private boolean hasNullPieceOfNewsChecked = false, hasRefreshed;
     ArrayList<News> news;
-    public final static String BASIC_URL = "http://10.0.2.2/gazprom/";
+    public final static String BASIC_URL = "http://gazpromclass.teachertools.ru/";
     ProgressBar progressBar;
     String result = new String();
     private TextView name;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
     private Retrofit retrofit;
     private ServerAPI serverAPI;
     private Gson gson = new Gson();
+    private ArrayList<Integer> packsGot = new ArrayList<>();
 
 
     @Override
@@ -155,17 +157,23 @@ public class MainActivity extends AppCompatActivity
                     final int totalItemCount = layoutManager.getItemCount();
                     int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount && !hasNullPieceOfNewsChecked && hasRefreshed) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount && !hasNullPieceOfNewsChecked && hasRefreshed && !packsGot.contains(totalItemCount / 4) && totalItemCount >= 4) {
                         progressBar.setVisibility(View.VISIBLE);
-                        int packCount = totalItemCount / 4;
+                        final int packCount = layoutManager.getItemCount() / 4;
+                        packsGot.add(packCount);
                         serverAPI.news("get", packCount).enqueue(new Callback<ArrayList<News>>() {
                             @Override
                             public void onResponse(Call<ArrayList<News>> call, retrofit2.Response<ArrayList<News>> response) {
                                 NewsAdapter adapter = (NewsAdapter) recyclerView.getAdapter();
-                                for (int i = 0; i < 4; i++)
-                                    if (response.body().get(i) != null && !hasNullPieceOfNewsChecked)
+                                for (int i = 0; i < 4; i++) {
+                                    if (response.body().get(i) != null && !hasNullPieceOfNewsChecked) {
                                         adapter.putOnePieceOfNews(response.body().get(i));
-                                    else hasNullPieceOfNewsChecked = true;
+                                    } else {
+                                        hasNullPieceOfNewsChecked = true;
+                                        break;
+                                    }
+
+                                }
                                 progressBar.setVisibility(View.INVISIBLE);
                             }
 
@@ -196,12 +204,28 @@ public class MainActivity extends AppCompatActivity
 
                 Callback<ArrayList<News>> callback = new Callback<ArrayList<News>>() {
                     @Override
-                    public void onResponse(Call<ArrayList<News>> call, @NonNull retrofit2.Response<ArrayList<News>> response) {
-                        NewsAdapter newsAdapter = new NewsAdapter(response.body());
+                    public void onResponse(Call<ArrayList<News>> call, retrofit2.Response<ArrayList<News>> response) {
+                        ArrayList<News> news = new ArrayList<>();
+                        if (response.body().contains(null)) {
+                            news.ensureCapacity(response.body().indexOf(null));
+                            for (int i = 0; i < response.body().indexOf(null); i++)
+                                news.add(response.body().get(i));
+                        } else news = response.body();
+
+                        NewsAdapter newsAdapter = new NewsAdapter(news);
+
                         recyclerView.setAdapter(newsAdapter);
                         progressBar.setVisibility(View.INVISIBLE);
                         swipeRefreshLayout.setRefreshing(false);
                         hasRefreshed = true;
+
+                        if (response.body().contains(null))
+                            hasNullPieceOfNewsChecked = true;
+                        else
+                            hasNullPieceOfNewsChecked = false;
+
+                        packsGot.clear();
+                        packsGot.add(0);
                     }
 
                     @Override
@@ -212,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                 };
 
                 Call<ArrayList<News>> newsCall = serverAPI.news("get", 0);
+                packsGot.add(0);
                 newsCall.enqueue(callback);
             }
         });
@@ -232,7 +257,9 @@ public class MainActivity extends AppCompatActivity
         Callback<ArrayList<News>> callback = new Callback<ArrayList<News>>() {
             @Override
             public void onResponse(Call<ArrayList<News>> call, Response<ArrayList<News>> response) {
-                Log.w("Connection", response.code() + "");
+                if (response.body().contains(null))
+                    hasNullPieceOfNewsChecked = true;
+
                 NewsAdapter newsAdapter = new NewsAdapter(response.body());
                 recyclerView.setAdapter(newsAdapter);
                 progressBar.setVisibility(View.INVISIBLE);
@@ -248,6 +275,7 @@ public class MainActivity extends AppCompatActivity
 
         Call<ArrayList<News>> newsCall = serverAPI.news("get", 0);
         newsCall.enqueue(callback);
+        packsGot.add(0);
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -282,14 +310,14 @@ public class MainActivity extends AppCompatActivity
     public void checkConnection() {
         if (!ConnectivityReceiver.isConnected()) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Похоже, вы не подключены к интернету. Включите интернет и повторите попытку.");
-            alertDialogBuilder.setPositiveButton("Повторить", new DialogInterface.OnClickListener() {
+            alertDialogBuilder.setTitle(R.string.notificationConnectionError);
+            alertDialogBuilder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     checkConnection();
                 }
             });
-            alertDialogBuilder.setNegativeButton("Выход", new DialogInterface.OnClickListener() {
+            alertDialogBuilder.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     MainActivity.mInstance.onDestroy();
@@ -301,7 +329,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showFailure() {
-        Toast.makeText(this, "Сервер недоступен. Попробуйте позже.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.notificationServerError, Toast.LENGTH_LONG).show();
     }
 
 }

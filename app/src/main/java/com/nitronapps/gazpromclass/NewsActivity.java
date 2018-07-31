@@ -2,6 +2,7 @@ package com.nitronapps.gazpromclass;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,10 +41,14 @@ public class NewsActivity extends AppCompatActivity
         ArrayList<News> news = (ArrayList<News>) gotIntent.getSerializableExtra("data");
         int position = gotIntent.getIntExtra("id", -1);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            content.setText(Html.fromHtml(news.get(position).content, Html.FROM_HTML_MODE_COMPACT));
+        else
+            content.setText(Html.fromHtml(news.get(position).content));
+
         title.setText(news.get(position).title);
         date.setText(news.get(position).date);
         author.setText(news.get(position).author);
-        content.setText(news.get(position).content);
 
         for (int i = 0; i < news.get(position).att_urls.length; i++) {
             photos.addView(getImageView(news.get(position).att_urls[i]));

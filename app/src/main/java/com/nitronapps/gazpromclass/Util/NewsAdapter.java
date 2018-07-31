@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.nitronapps.gazpromclass.MainActivity.BASIC_URL;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-    private ArrayList<News> news = new ArrayList<>();
+    private ArrayList<News> news;
     private int newsCount;
 
     public void putOnePieceOfNews(News news) {

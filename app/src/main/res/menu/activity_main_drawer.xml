@@ -6,16 +6,16 @@
     <item
         android:id="@+id/nav_camera"
         android:icon="@drawable/baseline_library_books_black_48"
-        android:title="Новости" />
+        android:title="@string/news" />
 
     <item
         android:id="@+id/nav_gallery"
         android:icon="@drawable/baseline_add_black_48"
-        android:title="Отправить пост" />
+        android:title="@string/sendPost" />
 
     <item
         android:id="@+id/nav_about"
         android:icon="@drawable/baseline_info_black_48"
-        android:title="О приложении" />
+        android:title="@string/sendPost" />
 
 </menu>
