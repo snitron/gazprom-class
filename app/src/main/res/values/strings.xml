@@ -25,6 +25,7 @@
     <string name="startButton">Начать</string>
     <string name="version">Версия 1.0.4</string>
 
+
     <string name="notificationServerError">Сервер недоступен, пропробуйте позже.</string>
     <string name="notificationConnectionError">Проверьте сосединение с Интернетом.</string>
     <string name="retry">Повторить</string>

@@ -9,14 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/commons-codec-1.11" />
-            <option value="$PROJECT_DIR$/commons-io-2.6" />
             <option value="$PROJECT_DIR$/converter-gson-2.4.0" />
             <option value="$PROJECT_DIR$/gson-2.8.5" />
-            <option value="$PROJECT_DIR$/httpclient-4.5.5" />
-            <option value="$PROJECT_DIR$/httpcore-4.4.9" />
-            <option value="$PROJECT_DIR$/httpmime-4.5.5" />
-            <option value="$PROJECT_DIR$/retrofit-2.1.0" />
             <option value="$PROJECT_DIR$/retrofit-2.4.0" />
           </set>
         </option>

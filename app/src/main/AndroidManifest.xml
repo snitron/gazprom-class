@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/news"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +26,11 @@
         </activity>
         <activity
             android:name=".NewsActivity"
-            android:label="@string/app_name"
+            android:label="@string/news"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UploadActivity"
-            android:label="@string/app_name"
+            android:label="@string/sendPost"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistrationActivity"
@@ -39,7 +39,7 @@
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".AboutActivity"
-            android:label="@string/app_name"
+            android:label="@string/about"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
