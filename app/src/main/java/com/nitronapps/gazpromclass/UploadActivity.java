@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -51,7 +53,7 @@ import static com.nitronapps.gazpromclass.MainActivity.BASIC_URL;
 public class UploadActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText titleEdit, contentEdit;
-    private ImageView showOk;
+    private ImageView showResponse;
     private ProgressBar progressBar;
     private Button addImages, send;
     private LinearLayout layoutAttPhotos;
@@ -65,13 +67,15 @@ public class UploadActivity extends AppCompatActivity
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+
+
         titleEdit = (EditText) findViewById(R.id.editTextTitle);
         contentEdit = (EditText) findViewById(R.id.editTextContent);
         addImages = (Button) findViewById(R.id.buttonUpload);
         send = (Button) findViewById(R.id.buttonSend);
         layoutAttPhotos = (LinearLayout) findViewById(R.id.linearLayoutAttPhotos);
         progressBar = (ProgressBar) findViewById(R.id.progressBarUpload);
-        showOk = (ImageView) findViewById(R.id.imageViewOK);
+        showResponse = (ImageView) findViewById(R.id.imageViewResponse);
 
 
         sp = getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
@@ -117,28 +121,40 @@ public class UploadActivity extends AppCompatActivity
                             }
                         });
 
-                        showOk.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                showOk.setVisibility(View.VISIBLE);
-                            }
-                        });
 
-                        try {
-                            Thread.sleep(5000);
-                            showOk.post(new Runnable() {
+                        if(response.body().string().equals("Успешно! Ваш пост отправлен на модерацию.")) {
+                            showResponse.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    showOk.setVisibility(View.INVISIBLE);
+                                    showResponse.setImageResource(R.drawable.ok);
+                                    showResponse.setVisibility(View.VISIBLE);
                                 }
                             });
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        } else {
+                            showResponse.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showResponse.setImageResource(R.drawable.fail);
+                                    showResponse.setVisibility(View.VISIBLE);
+                                }
+                            });
                         }
+
+                            try {
+                                Thread.sleep(5000);
+                                showResponse.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showResponse.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
 
                     }
-                });
+               });
 
                 titleEdit.setText("");
                 contentEdit.setText("");
@@ -151,6 +167,8 @@ public class UploadActivity extends AppCompatActivity
         addImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!hasPermissions()) requestPerms();
+
                 Intent intent = new Intent();
                 intent.setType(IMAGE_TYPE);
                 intent.setAction(Intent.ACTION_PICK);
@@ -178,6 +196,26 @@ public class UploadActivity extends AppCompatActivity
             pathsToImages.add(data.getData());
             layoutAttPhotos.addView(getImageView(data.getData()));
             layoutAttPhotos.addView(getTextView());
+        }
+    }
+
+    private boolean hasPermissions(){
+        int res = 0;
+        String[] permissions = new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        for (String perms : permissions){
+            res = checkCallingOrSelfPermission(perms);
+            if (!(res == PackageManager.PERMISSION_GRANTED)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void requestPerms(){
+        String[] permissions = new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions, 123);
         }
     }
 
