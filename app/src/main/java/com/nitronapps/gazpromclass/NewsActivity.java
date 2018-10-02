@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.module.AppGlideModule;
 import com.nitronapps.gazpromclass.Data.News;
 import com.squareup.picasso.Picasso;
 
@@ -77,7 +81,6 @@ public class NewsActivity extends AppCompatActivity
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(R.drawable.gazprom_placeholder);
         Picasso.get().load(url).placeholder(R.drawable.gazprom_placeholder).resize(400, 400).into(imageView);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

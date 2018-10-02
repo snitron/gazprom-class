@@ -1,7 +1,9 @@
 package com.nitronapps.gazpromclass;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +11,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -36,12 +40,15 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -52,16 +59,19 @@ import static com.nitronapps.gazpromclass.MainActivity.BASIC_URL;
 
 public class UploadActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final static int GALLERY = 0, PHOTO = 1;
     private EditText titleEdit, contentEdit;
     private ImageView showResponse;
     private ProgressBar progressBar;
     private Button addImages, send;
     private LinearLayout layoutAttPhotos;
     private static final String IMAGE_TYPE = "image/*";
-    private static final int SELECT_MULTIPLE_PICTURE = 201;
     private ArrayList<Uri> pathsToImages = new ArrayList<>();
     private SharedPreferences sp;
-    private String name;
+    private String name, mCurrentPhotoPath;
+    private AlertDialog.Builder alertDialogBuilder;
+    private final String[] points = new String[2];
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -80,6 +90,9 @@ public class UploadActivity extends AppCompatActivity
 
         sp = getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
         name = sp.getString("name", "Android User");
+        points[0] = getResources().getString(R.string.camera);
+        points[1] = getResources().getString(R.string.gallery);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,12 +180,47 @@ public class UploadActivity extends AppCompatActivity
         addImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!hasPermissions()) requestPerms();
+                alertDialogBuilder = new AlertDialog.Builder(UploadActivity.this);
 
-                Intent intent = new Intent();
-                intent.setType(IMAGE_TYPE);
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(intent, SELECT_MULTIPLE_PICTURE);
+                alertDialogBuilder.setTitle(getResources().getString(R.string.chooseMethod));
+                alertDialogBuilder.setItems(points, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i){
+                            case 1:{
+                                if(!hasPermissions()) requestPerms();
+
+                                Intent intent = new Intent();
+                                intent.setType(IMAGE_TYPE);
+                                intent.setAction(Intent.ACTION_PICK);
+                                startActivityForResult(intent, GALLERY);
+                                break;
+                            }
+                            case 0: {
+                                if (!hasPermissions()) requestPerms();
+
+                                Intent intent = new Intent();
+                                try {
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(createImageFile()));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                StrictMode.setVmPolicy(builder.build());
+
+                                startActivityForResult(intent, PHOTO);
+                                break;
+                            }
+                            }
+                        }
+                    }
+            );
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
 
             }
         });
@@ -192,9 +240,16 @@ public class UploadActivity extends AppCompatActivity
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED) {
+        if (requestCode == GALLERY && resultCode == RESULT_OK) {
             pathsToImages.add(data.getData());
             layoutAttPhotos.addView(getImageView(data.getData()));
+            layoutAttPhotos.addView(getTextView());
+        }
+
+        if (requestCode == PHOTO && resultCode == RESULT_OK) {
+            File file = new File(mCurrentPhotoPath);
+            pathsToImages.add(Uri.fromFile(file));
+            layoutAttPhotos.addView(getImageView(Uri.fromFile(file)));
             layoutAttPhotos.addView(getTextView());
         }
     }
@@ -255,6 +310,22 @@ public class UploadActivity extends AppCompatActivity
         });
 
         return imageView;
+    }
+
+
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     private void onServerResponse(String response) {

@@ -2,20 +2,18 @@
     <string name="app_name">Газпром Класс</string>
 
 
-
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_registration">Газпром Класc</string>
 
     <string name="about_information">Разработчик приложения: Nitron Apps (Варламов Никита)\n
  Контакты: +79964015146\n
- Telegram: @snitron\n
- Версия 1.0.4\n
- Сборка от 31.07.2018 г.\n</string>
+ Email: nvar3@yandex.ru\n
+ Версия 1.1.1\n
+ Сборка от 02.10.2018 г.\n</string>
 
     <string name="news">Новости</string>
-    <string name="sendPost">Отправить пост</string>
+    <string name="sendPost">Создать публикацию</string>
     <string name="about">О приложении</string>
     <string name="title">Заголовок</string>
     <string name="content">Текст</string>
@@ -24,10 +22,10 @@
     <string name="attButton">Прикрепить фотографии</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="welcomeStart">Добро пожаловать в приложение "Газпром Класс"!</string>
-    <string name="toStart">Для начала введите ваше имя, которое будет использоваться для подписи ваших постов.</string>
+    <string name="toStart">Для начала введите ваше имя, которое будет использоваться для подписи ваших публикаций.</string>
     <string name="nameStart">Имя</string>
     <string name="startButton">Начать</string>
-    <string name="version">Версия 1.0.4</string>
+    <string name="version">Версия 1.1.1</string>
 
 
     <string name="notificationServerError">Сервер недоступен, пропробуйте позже.</string>
@@ -35,5 +33,22 @@
     <string name="retry">Повторить</string>
     <string name="exit">Выйти</string>
     <string name="startToast">Пожалуйста, введите имя. Если вы хотите остаться инкогнито, зажмите эту кнопку.</string>
+    <string name="chooseMethod">Выберите действие:</string>
+    <string name="camera">Открыть камеру</string>
+    <string name="gallery">Выбрать из галереи</string>
+
+    <string name="title_activity_preview">PreviewActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="one">Читайте новости с сайта "Газпром Класс".</string>
+    <string name="two">Создавайте новости и публикуйте их на сайт через приложение!</string>
+
+    <string-array name="titles">
+        <item>@string/welcomeStart</item>
+        <item>@string/one</item>
+        <item>@string/two</item>
+    </string-array>
+
 
 </resources>

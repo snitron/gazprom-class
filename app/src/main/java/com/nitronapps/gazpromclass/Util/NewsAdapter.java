@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nitronapps.gazpromclass.NewsActivity;
 import com.nitronapps.gazpromclass.Data.News;
 import com.nitronapps.gazpromclass.R;

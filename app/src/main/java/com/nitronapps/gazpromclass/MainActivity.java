@@ -106,8 +106,9 @@ public class MainActivity extends AppCompatActivity
         sp = getSharedPreferences(APP_SETTINGS, MODE_PRIVATE);
         editor = sp.edit();
 
+
         if (!sp.contains("hasName") || !sp.getBoolean("hasName", false)) {
-            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+            Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
             startActivity(intent);
         }
 

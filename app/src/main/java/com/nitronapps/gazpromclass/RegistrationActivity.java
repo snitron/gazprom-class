@@ -92,10 +92,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.apply();
 
                 Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                finish();
                 startActivity(intent);
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 

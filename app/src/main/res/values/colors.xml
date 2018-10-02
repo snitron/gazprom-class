@@ -7,4 +7,7 @@
     <color name="black_overlay">#66000000</color>
 
     <color name="gazprom_classic">#0079c2</color>
+
+    <color name="news_preview_color">#d7ead9</color>
+    <color name="photo_preview_color">#fff7b3</color>
 </resources>
