@@ -22,6 +22,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,7 +108,7 @@ public class UploadActivity extends AppCompatActivity
                     OkHttpPostManager manager = new OkHttpPostManager();
 
                     manager.addText("title", titleEdit.getText().toString());
-                    manager.addText("content", contentEdit.getText().toString());
+                    manager.addText("content", Html.toHtml(new SpannableString(contentEdit.getText())));
                     manager.addText("author", name);
                     manager.addText("count", pathsToImages.size() + "");
 
