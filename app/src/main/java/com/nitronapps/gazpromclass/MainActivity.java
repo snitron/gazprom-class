@@ -130,6 +130,20 @@ public class MainActivity extends AppCompatActivity
             NewsAdapter newsAdapter = new NewsAdapter(newsArrayList);
             recyclerView.setAdapter(newsAdapter);
             hasRefreshed = false;
+            serverAPI.news("getAll", 0).enqueue(new Callback<ArrayList<News>>() {
+                @Override
+                public void onResponse(Call<ArrayList<News>> call, Response<ArrayList<News>> response) {
+                    String news = gson.toJson(response.body(), new TypeToken<ArrayList<News>>() {
+                    }.getType());
+                    editor.putString("cachedNews", news);
+                    editor.apply();
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<News>> call, Throwable throwable) {
+
+                }
+            });
         } else {
             refreshNews();
             hasRefreshed = true;
@@ -203,7 +217,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh() {
 
-                Callback<ArrayList<News>> callback = new Callback<ArrayList<News>>() {
+                Call<ArrayList<News>> newsCall = serverAPI.news("get", 0);
+                packsGot.add(0);
+                newsCall.enqueue(new Callback<ArrayList<News>>() {
                     @Override
                     public void onResponse(Call<ArrayList<News>> call, retrofit2.Response<ArrayList<News>> response) {
                         ArrayList<News> news = new ArrayList<>();
@@ -220,7 +236,7 @@ public class MainActivity extends AppCompatActivity
                         swipeRefreshLayout.setRefreshing(false);
                         hasRefreshed = true;
 
-                        if (response.body().contains(null))
+                        if(response.body().contains(null))
                             hasNullPieceOfNewsChecked = true;
                         else
                             hasNullPieceOfNewsChecked = false;
@@ -234,11 +250,7 @@ public class MainActivity extends AppCompatActivity
                         showFailure();
                         progressBar.setVisibility(View.INVISIBLE);
                     }
-                };
-
-                Call<ArrayList<News>> newsCall = serverAPI.news("get", 0);
-                packsGot.add(0);
-                newsCall.enqueue(callback);
+                });
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.gazprom_classic);

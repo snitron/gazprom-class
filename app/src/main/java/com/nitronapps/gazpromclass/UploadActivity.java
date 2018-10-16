@@ -96,62 +96,63 @@ public class UploadActivity extends AppCompatActivity
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .connectTimeout(100000, TimeUnit.SECONDS)
-                        .writeTimeout(100000, TimeUnit.SECONDS)
-                        .readTimeout(100000, TimeUnit.SECONDS)
-                        .build();
-                OkHttpPostManager manager = new OkHttpPostManager();
+                if (!titleEdit.getText().toString().equals("")) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    OkHttpClient client = new OkHttpClient.Builder()
+                            .connectTimeout(100000, TimeUnit.SECONDS)
+                            .writeTimeout(100000, TimeUnit.SECONDS)
+                            .readTimeout(100000, TimeUnit.SECONDS)
+                            .build();
+                    OkHttpPostManager manager = new OkHttpPostManager();
 
-                manager.addText("title", titleEdit.getText().toString());
-                manager.addText("content", contentEdit.getText().toString());
-                manager.addText("author", name);
-                manager.addText("count", pathsToImages.size() + "");
+                    manager.addText("title", titleEdit.getText().toString());
+                    manager.addText("content", contentEdit.getText().toString());
+                    manager.addText("author", name);
+                    manager.addText("count", pathsToImages.size() + "");
 
-                for (int i = 0; i < pathsToImages.size(); i++)
-                    manager.addImage("picture" + i, new File(getPath(pathsToImages.get(i))));
+                    for (int i = 0; i < pathsToImages.size(); i++)
+                        manager.addImage("picture" + i, new File(getPath(pathsToImages.get(i))));
 
-                RequestBody requestBody = manager.finalizeRequest();
-                final Request request = new Request.Builder()
-                        .url(BASIC_URL + "uploaderl.php")
-                        .addHeader("User-Agent", "Nitron Apps Gazprom Class Http Connector")
-                        .post(requestBody)
-                        .build();
+                    RequestBody requestBody = manager.finalizeRequest();
+                    final Request request = new Request.Builder()
+                            .url(BASIC_URL + "uploaderl.php")
+                            .addHeader("User-Agent", "Nitron Apps Gazprom Class Http Connector")
+                            .post(requestBody)
+                            .build();
 
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        progressBar.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
-
-                        if(response.body().string().equals("Успешно! Ваш пост отправлен на модерацию.")) {
-                            showResponse.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showResponse.setImageResource(R.drawable.ok);
-                                    showResponse.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        } else {
-                            showResponse.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showResponse.setImageResource(R.drawable.fail);
-                                    showResponse.setVisibility(View.VISIBLE);
-                                }
-                            });
                         }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            progressBar.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                }
+                            });
+
+
+                            if (response.body().string().equals("Успешно! Ваш пост отправлен на модерацию.")) {
+                                showResponse.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showResponse.setImageResource(R.drawable.ok);
+                                        showResponse.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            } else {
+                                showResponse.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showResponse.setImageResource(R.drawable.fail);
+                                        showResponse.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
 
                             try {
                                 Thread.sleep(5000);
@@ -166,14 +167,17 @@ public class UploadActivity extends AppCompatActivity
                             }
 
 
-                    }
-               });
+                        }
+                    });
 
-                titleEdit.setText("");
-                contentEdit.setText("");
-                layoutAttPhotos.removeAllViews();
-                pathsToImages.clear();
-                Toast.makeText(getApplicationContext(), "Запрос отправлен. Ожидайте ответ.", Toast.LENGTH_SHORT).show();
+                    titleEdit.setText("");
+                    contentEdit.setText("");
+                    layoutAttPhotos.removeAllViews();
+                    pathsToImages.clear();
+                    Toast.makeText(getApplicationContext(), "Запрос отправлен. Ожидайте ответ.", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.notificationNullTitle), Toast.LENGTH_SHORT).show();
+
             }
         });
 

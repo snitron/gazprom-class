@@ -26,4 +26,5 @@
     <string name="chooseMethod">Selected action:</string>
     <string name="camera">Open camera</string>
     <string name="gallery">" Choose photo in gallery"</string>
+    <string name="notificationNullTitle">Title can\'t be null.</string>
 </resources>

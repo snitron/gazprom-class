@@ -30,6 +30,7 @@
 
     <string name="notificationServerError">Сервер недоступен, пропробуйте позже.</string>
     <string name="notificationConnectionError">Проверьте сосединение с Интернетом.</string>
+    <string name="notificationNullTitle">Введите заголовок.</string>
     <string name="retry">Повторить</string>
     <string name="exit">Выйти</string>
     <string name="startToast">Пожалуйста, введите имя. Если вы хотите остаться инкогнито, зажмите эту кнопку.</string>

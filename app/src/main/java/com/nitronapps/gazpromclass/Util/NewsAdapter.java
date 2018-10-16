@@ -73,9 +73,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, final int position) {
         if (news.get(position) != null) {
-            if (!news.get(position).photo_mini_url.equals(""))
-                Picasso.get().load(news.get(position).photo_mini_url).placeholder(R.drawable.gazprom_placeholder).into(holder.photo);
-            else holder.photo.setImageResource(R.drawable.gazprom_placeholder);
+            if (news.get(position).att_urls != null && news.get(position).att_urls.length != 0){
+                if(!news.get(position).att_urls[0].equals(""))
+                    Picasso.get().load(news.get(position).att_urls[0]).placeholder(R.drawable.gazprom_placeholder).into(holder.photo);
+            }  else holder.photo.setImageResource(R.drawable.gazprom_placeholder);
             holder.title.setText(news.get(position).title);
             holder.date.setText(news.get(position).date);
             holder.cardView.setOnClickListener(new View.OnClickListener() {
